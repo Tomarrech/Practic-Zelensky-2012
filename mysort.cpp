@@ -1,6 +1,57 @@
 #include "stdafx.h"
 #include "mysort.h"
 
+
+void FirstHalfCheck(int *ARRAY, int *start, int middle);
+void LastHalfCheck(int *ARRAY, int *last, int middle);
+void SwapCheck(int *ARRAY, int *start, int *last);
+void swap(int *fElem, int *sElem);
+void RecFirstHalfQSort(int *ARRAY, int start, int SIZE_ARRAY);
+void RecLastHalfQSort(int *ARRAY, int last);
+
+void qSort(int* ARRAY, int SIZE_ARRAY)
+{
+	int middle = ARRAY[(SIZE_ARRAY - 1) / 2];
+	int start = 0; 
+	int last = SIZE_ARRAY - 1;
+
+	do 
+	{
+		FirstHalfCheck(ARRAY, &start, middle);
+		LastHalfCheck(ARRAY, &last, middle);
+		SwapCheck(ARRAY, &start, &last);
+	} while(start <= last);
+
+	RecFirstHalfQSort(ARRAY, start, SIZE_ARRAY);
+	RecLastHalfQSort(ARRAY, last);
+}
+
+void FirstHalfCheck(int *ARRAY, int *start, int middle)
+{
+	while(ARRAY[*start] < middle)
+	{
+		(*start)++;
+	}
+}
+
+void LastHalfCheck(int *ARRAY, int *last, int middle)
+{
+	while(ARRAY[*last] > middle)
+	{
+		(*last)--;
+	}
+}
+
+void SwapCheck(int *ARRAY, int *start, int *last)
+{
+	if((*start) <= (*last))
+	{
+		swap(&ARRAY[*start], &ARRAY[*last]);
+		(*start)++;
+		(*last)--;
+	}
+}
+
 void swap(int *fElem, int *sElem)
 {
 		int temp;
@@ -9,40 +60,16 @@ void swap(int *fElem, int *sElem)
 		*sElem = temp;
 }
 
-void qSort(int* ARRAY, int SIZE_ARRAY)
+void RecFirstHalfQSort(int *ARRAY, int start, int SIZE_ARRAY)
 {
-	int middle = ARRAY[(SIZE_ARRAY - 1) / 2];
-	int start = 0; 
-	int last = SIZE_ARRAY - 1;
-
-	while(true)
-	{
-		while(ARRAY[start] < middle)
-		{
-			start++;
-		}
-		while(ARRAY[last] > middle)
-		{
-			last--;
-		}
-
-		if(start <= last)
-		{
-			int temp;
-			swap(&ARRAY[start], &ARRAY[last]);
-			start++;
-			last--;
-		}
-		else
-		{
-			break;
-		}
-	}
-
 	if(start < SIZE_ARRAY - 1)
 	{
 		qSort(ARRAY + start, SIZE_ARRAY - start);
 	}
+}
+
+void RecLastHalfQSort(int *ARRAY, int last)
+{
 	if(last > 0)
 	{
 		qSort(ARRAY, last + 1);

@@ -3,7 +3,7 @@
 
 bool firstCheck(int startElem, int lastElem, int Elem);
 int midCalc(int start, int last);
-int findResult(int *ARRAY, int *start, int *middle, int *last, int Elem);
+int findResult(int *ARRAY, int *start, int middle, int *last, int Elem);
 
 int mysearch(int *ARRAY, int SIZE_ARRAY, int Elem)
 {
@@ -14,9 +14,13 @@ int mysearch(int *ARRAY, int SIZE_ARRAY, int Elem)
 	if(firstCheck(ARRAY[start], ARRAY[last], Elem))
 	{
 		int middle = 0;
-		while(start <= last)
+		while(start < last)
 		{
-			result = findResult(ARRAY, &start, &middle, &last, Elem);
+			middle = midCalc(start, last);
+			if((result = findResult(ARRAY, &start, middle, &last, Elem)) != -1)
+			{
+				break;
+			}
 		}
 		return result;
 	}
@@ -36,20 +40,19 @@ int midCalc(int start, int last)
 	return start + (last - start) / 2;
 }
 
-int findResult(int *ARRAY, int *start, int *middle, int *last, int Elem)
+int findResult(int *ARRAY, int *start, int middle, int *last, int Elem)
 {
-	*middle = midCalc(*start, *last);
-
-	if(ARRAY[*middle] == Elem)
+	if(ARRAY[middle] == Elem)
 	{
-		return *middle;
+		return middle;
 	}
-	else if(ARRAY[*middle] < Elem)
+	else if(ARRAY[middle] < Elem)
 	{
-		*start = *middle + 1;
+		(*start) = middle + 1;
 	}
-	else if(ARRAY[*middle] > Elem)
+	else if(ARRAY[middle] > Elem)
 	{
-		*last = *middle;
+		(*last) = middle;
 	}
+	return -1;
 }

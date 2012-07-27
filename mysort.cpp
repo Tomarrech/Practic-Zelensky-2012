@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "mysort.h"
+#include <ctime>
+#include <time.h>
 
-
+int midRand(int SIZE_ARRAY);
 void FirstHalfCheck(int *ARRAY, int *start, int middle);
 void LastHalfCheck(int *ARRAY, int *last, int middle);
 void SwapCheck(int *ARRAY, int *start, int *last);
@@ -11,7 +13,7 @@ void RecLastHalfQSort(int *ARRAY, int last);
 
 void qSort(int* ARRAY, int SIZE_ARRAY)
 {
-	int middle = ARRAY[(SIZE_ARRAY - 1) / 2];
+	int middle = ARRAY[midRand(SIZE_ARRAY)/*(SIZE_ARRAY - 1) / 2*/];
 	int start = 0; 
 	int last = SIZE_ARRAY - 1;
 
@@ -24,6 +26,12 @@ void qSort(int* ARRAY, int SIZE_ARRAY)
 
 	RecFirstHalfQSort(ARRAY, start, SIZE_ARRAY);
 	RecLastHalfQSort(ARRAY, last);
+}
+
+int midRand(int SIZE_ARRAY)
+{
+	srand(clock());
+	return rand() % SIZE_ARRAY;
 }
 
 void FirstHalfCheck(int *ARRAY, int *start, int middle)

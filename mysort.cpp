@@ -2,84 +2,67 @@
 #include "mysort.h"
 #include <ctime>
 #include <time.h>
+#include <assert.h>
 
-int midRand(int SIZE_ARRAY);
-void FirstHalfCheck(int *ARRAY, int *start, int middle);
-void LastHalfCheck(int *ARRAY, int *last, int middle);
-void SwapCheck(int *ARRAY, int *start, int *last);
+int findPivot(int *Array, int size);
 void swap(int *fElem, int *sElem);
-void RecFirstHalfQSort(int *ARRAY, int start, int SIZE_ARRAY);
-void RecLastHalfQSort(int *ARRAY, int last);
+void partition(int* Array, int* start, int* last, int middle);
 
-void qSort(int* ARRAY, int SIZE_ARRAY)
+void qSort(int* Array, int size)
 {
-	int middle = ARRAY[midRand(SIZE_ARRAY)/*(SIZE_ARRAY - 1) / 2*/];
+	assert(size >= 0);
+
+	int middle = findPivot(Array, size);
 	int start = 0; 
-	int last = SIZE_ARRAY - 1;
+	int last = size - 1;
 
-	do 
+	partition(Array, &start, &last, middle);
+
+	if(start < size - 1)
 	{
-		FirstHalfCheck(ARRAY, &start, middle);
-		LastHalfCheck(ARRAY, &last, middle);
-		SwapCheck(ARRAY, &start, &last);
-	} while(start <= last);
-
-	RecFirstHalfQSort(ARRAY, start, SIZE_ARRAY);
-	RecLastHalfQSort(ARRAY, last);
+		qSort(Array + start, size - start);
+	}
+	if(last > 0)
+	{
+		qSort(Array, last + 1);
+	}
 }
 
-int midRand(int SIZE_ARRAY)
+int findPivot(int *Array, int size)
 {
 	srand(clock());
-	return rand() % SIZE_ARRAY;
+	return Array[rand() % size];
 }
 
-void FirstHalfCheck(int *ARRAY, int *start, int middle)
+void partition(int* Array, int* start, int* last, int middle)
 {
-	while(ARRAY[*start] < middle)
+	while(true) 
 	{
-		(*start)++;
-	}
-}
-
-void LastHalfCheck(int *ARRAY, int *last, int middle)
-{
-	while(ARRAY[*last] > middle)
-	{
-		(*last)--;
-	}
-}
-
-void SwapCheck(int *ARRAY, int *start, int *last)
-{
-	if((*start) <= (*last))
-	{
-		swap(&ARRAY[*start], &ARRAY[*last]);
-		(*start)++;
-		(*last)--;
-	}
+		while(Array[*start] < middle)
+		{
+			(*start)++;
+		}
+		while(Array[*last] > middle)
+		{
+			(*last)--;
+		}
+		if(*start <= *last)
+		{
+			swap(&Array[*start], &Array[*last]);
+			(*start)++;
+			(*last)--;
+		}
+		else
+		{
+			break;
+		}
+	} 
 }
 
 void swap(int *fElem, int *sElem)
 {
-		int temp;
-		temp = *fElem;
-		*fElem = *sElem;
-		*sElem = temp;
-}
-
-void RecFirstHalfQSort(int *ARRAY, int start, int SIZE_ARRAY)
-{
-	if(start < SIZE_ARRAY - 1)
-	{
-		qSort(ARRAY + start, SIZE_ARRAY - start);
-	}
-}
-
-void RecLastHalfQSort(int *ARRAY, int last)
-{
-	if(last > 0)
-	{
-		qSort(ARRAY, last + 1);
-	}
+	int temp;
+	temp = *fElem;
+	*fElem = *sElem;
+	*sElem = temp;
 }

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "mytime.h"
+#include "mysort.h"
 
 void arrayFill(int *ARRAY, int SIZE_ARRAY);
 
@@ -11,6 +12,23 @@ double timeTest(f_sort fun, int SIZE_ARRAY)
 
 	clock_t ts = clock();
 	fun(ARRAY, SIZE_ARRAY);
+	clock_t te = clock();
+	
+	free(ARRAY);
+	
+	double res = (double)(te - ts) / CLOCKS_PER_SEC;
+	return res;
+}
+
+double timeTest(f_search fun, int SIZE_ARRAY)
+{
+	int *ARRAY;
+	ARRAY = (int*) malloc(SIZE_ARRAY * sizeof(int));
+	arrayFill(ARRAY, SIZE_ARRAY);
+	qSort(ARRAY, SIZE_ARRAY);
+
+	clock_t ts = clock();
+	fun(ARRAY, SIZE_ARRAY, ARRAY[rand() % SIZE_ARRAY]);
 	clock_t te = clock();
 	
 	free(ARRAY);

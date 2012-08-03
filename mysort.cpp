@@ -11,7 +11,6 @@ void partition(int* Array, int* start, int* last, int middle);
 void qSort(int* Array, int size)
 {
 	assert(size >= 0);
-
 	int middle = findPivot(Array, size);
 	int start = 0; 
 	int last = size - 1;

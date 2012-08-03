@@ -30,6 +30,7 @@ void qSort(int* Array, int size)
 
 int findPivot(int *Array, int size)
 {
+	srand(time(NULL));
 	return Array[rand() % size];
 }
 

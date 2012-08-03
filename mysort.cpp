@@ -11,25 +11,27 @@ void partition(int* Array, int* start, int* last, int middle);
 void qSort(int* Array, int size)
 {
 	assert(size >= 0);
-	int middle = findPivot(Array, size);
-	int start = 0; 
-	int last = size - 1;
-
-	partition(Array, &start, &last, middle);
-
-	if(start < size - 1)
+	if(size != 1)
 	{
-		qSort(Array + start, size - start);
-	}
-	if(last > 0)
-	{
-		qSort(Array, last + 1);
+		int middle = findPivot(Array, size);
+		int start = 0; 
+		int last = size - 1;
+
+		partition(Array, &start, &last, middle);
+
+		if(start < size - 1)
+		{
+			qSort(Array + start, size - start);
+		}
+		if(last > 0)
+		{
+			qSort(Array, last + 1);
+		}
 	}
 }
 
 int findPivot(int *Array, int size)
 {
-	srand(clock());
 	return Array[rand() % size];
 }
 
@@ -41,7 +43,7 @@ void partition(int* Array, int* start, int* last, int middle)
 		{
 			(*start)++;
 		}
-		while(Array[*last] >= middle)
+		while(Array[*last] > middle)
 		{
 			(*last)--;
 		}

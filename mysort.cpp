@@ -41,7 +41,7 @@ void partition(int* Array, int* start, int* last, int middle)
 		{
 			(*start)++;
 		}
-		while(Array[*last] > middle)
+		while(Array[*last] >= middle)
 		{
 			(*last)--;
 		}
